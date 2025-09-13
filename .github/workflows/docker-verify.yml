@@ -77,11 +77,12 @@ jobs:
       - name: Test Docker image
         run: |
           # Start container in background
+          echo "Starting Docker container..."
           docker run -d --name test-container -p 3000:3000 smart-cv-builder:test
 
           # Wait for container to be ready
           echo "Waiting for container to start..."
-          sleep 15
+          sleep 10
 
           # Check if container is running
           if ! docker ps | grep test-container; then
@@ -90,22 +91,28 @@ jobs:
             exit 1
           fi
 
-          # Test health endpoint
-          for i in {1..30}; do
-            if curl -f http://localhost:3000/api/health; then
-              echo "✅ Health check passed"
-              docker logs test-container --tail 10
-              break
-            fi
-            echo "Waiting for container to be ready... ($i/30)"
-            sleep 2
-            if [ $i -eq 30 ]; then
-              echo "❌ Health check failed after 60 seconds"
-              docker logs test-container
-              exit 1
-            fi
-          done
+          # Use wait-on for more reliable health checking
+          echo "Waiting for application to be ready..."
+          pnpm exec wait-on http://localhost:3000/api/health --timeout 60000 --interval 2000 --verbose || {
+            echo "❌ Application failed to start within 60 seconds"
+            echo "Container logs:"
+            docker logs test-container
+            echo "Container status:"
+            docker ps -a | grep test-container
+            exit 1
+          }
 
-          # Cleanup
-          docker stop test-container
-          docker rm test-container
+          # Test endpoints
+          echo "Testing application endpoints..."
+          curl -f http://localhost:3000/api/health && echo "✅ Health endpoint working"
+          curl -I http://localhost:3000 && echo "✅ Root endpoint working"
+
+          echo "✅ Docker image test completed successfully"
+          docker logs test-container --tail 10
+
+        # Always cleanup, even if tests fail
+      - name: Cleanup Docker container
+        if: always()
+        run: |
+          docker stop test-container || true
+          docker rm test-container || true

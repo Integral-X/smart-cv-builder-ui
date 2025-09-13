@@ -135,14 +135,38 @@ jobs:
         with:
           name: build-artifacts
 
-      - name: Start application
-        run: pnpm start --port 3000 &
+      - name: Start application in background
+        run: |
+          echo "Starting Next.js application..."
+          pnpm start &
+          echo $! > .next_pid
+        env:
+          PORT: 3000
 
-      - name: Wait for application
-        run: npx wait-on http://localhost:3000
+      - name: Wait for application to be ready
+        run: |
+          echo "Waiting for application to start on http://localhost:3000..."
+          pnpm exec wait-on http://localhost:3000 --timeout 60000 --interval 2000 --verbose
+          echo "Application is ready!"
+
+      - name: Verify application is responding
+        run: |
+          echo "Testing application health..."
+          curl -f http://localhost:3000/api/health || echo "Health endpoint not available"
+          curl -I http://localhost:3000 || echo "Root endpoint not available"
 
       - name: Run E2E tests
         run: pnpm dlx playwright test
+
+      - name: Stop application
+        if: always()
+        run: |
+          if [ -f .next_pid ]; then
+            kill $(cat .next_pid) || true
+            rm .next_pid
+          fi
+          # Fallback: kill any remaining Next.js processes
+          pkill -f "next start" || true
 
       - name: Upload E2E test results
         uses: actions/upload-artifact@v4

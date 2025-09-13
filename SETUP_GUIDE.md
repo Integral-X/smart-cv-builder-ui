@@ -96,6 +96,8 @@ The application will be available at [http://localhost:3000](http://localhost:30
 - `pnpm test:e2e` - Runs end-to-end tests
 - `pnpm test:e2e:ui` - Runs E2E tests with UI
 - `pnpm test:e2e:headed` - Runs E2E tests in headed mode
+- `pnpm test:e2e:debug` - Runs E2E tests in debug mode
+- `pnpm test:e2e:local` - Runs E2E tests with automatic server setup
 
 ## Project Structure
 
