@@ -9,7 +9,7 @@ export default defineConfig({
   reporter: [
     ['html'],
     ['junit', { outputFile: 'test-results/junit.xml' }],
-    ['github']
+    ['github'],
   ],
   use: {
     baseURL: 'http://localhost:3000',

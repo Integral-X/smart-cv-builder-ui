@@ -3,10 +3,10 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   // Enable standalone output for Docker
   output: 'standalone',
-  
+
   // Optimize for production
   poweredByHeader: false,
-  
+
   // Security headers
   async headers() {
     return [
@@ -29,7 +29,7 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  
+
   // Experimental features for better performance
   experimental: {
     optimizePackageImports: ['lucide-react'],

@@ -18,7 +18,7 @@ jobs:
     name: Final Quality Gates
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -72,7 +72,7 @@ jobs:
     outputs:
       new-release-published: ${{ steps.semantic.outputs.new-release-published }}
       new-release-version: ${{ steps.semantic.outputs.new-release-version }}
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -118,7 +118,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -169,23 +169,23 @@ jobs:
     environment:
       name: staging
       url: https://staging.smart-cv-builder.com
-    
+
     steps:
       - name: Deploy to staging
         run: |
           echo "Deploying version ${{ needs.semantic-release.outputs.new-release-version }} to staging"
           # Example deployment options (uncomment and configure as needed):
-          
+
           # Option 1: Kubernetes with kubectl
           # kubectl set image deployment/smart-cv-builder app=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.semantic-release.outputs.new-release-version }}
-          
+
           # Option 2: Docker Compose
           # export IMAGE_TAG=${{ needs.semantic-release.outputs.new-release-version }}
           # docker-compose -f docker-compose.staging.yml up -d
-          
+
           # Option 3: SSH deployment to VPS
           # ssh user@staging-server "docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.semantic-release.outputs.new-release-version }} && docker-compose up -d"
-          
+
           # Option 4: Cloud provider CLI (AWS/GCP/Azure)
           # aws ecs update-service --cluster staging --service smart-cv-builder --force-new-deployment
 
@@ -196,7 +196,7 @@ jobs:
     if: needs.semantic-release.outputs.new-release-published == 'true'
     environment:
       name: production-approval
-    
+
     steps:
       - name: Manual approval required
         run: echo "Manual approval required for production deployment"
@@ -209,20 +209,20 @@ jobs:
     environment:
       name: production
       url: https://smart-cv-builder.com
-    
+
     steps:
       - name: Deploy to production
         run: |
           echo "Deploying version ${{ needs.semantic-release.outputs.new-release-version }} to production"
           # Example production deployment (uncomment and configure as needed):
-          
+
           # Option 1: Blue-Green deployment with Kubernetes
           # kubectl set image deployment/smart-cv-builder-blue app=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.semantic-release.outputs.new-release-version }}
           # kubectl patch service smart-cv-builder -p '{"spec":{"selector":{"version":"blue"}}}'
-          
+
           # Option 2: Rolling update
           # kubectl set image deployment/smart-cv-builder app=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.semantic-release.outputs.new-release-version }}
           # kubectl rollout status deployment/smart-cv-builder
-          
+
           # Option 3: Cloud provider deployment
           # aws ecs update-service --cluster production --service smart-cv-builder --force-new-deployment

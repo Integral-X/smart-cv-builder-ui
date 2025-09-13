@@ -21,6 +21,7 @@ Our pipeline catches issues as early as possible in the development cycle:
 **Triggers:** Pull requests to `main` or `develop` branches
 
 **Quality Gates:**
+
 - ✅ Code formatting (Prettier)
 - ✅ Linting (ESLint with accessibility rules)
 - ✅ Type checking (TypeScript)
@@ -37,6 +38,7 @@ Our pipeline catches issues as early as possible in the development cycle:
 **Triggers:** Pushes to `main` branch
 
 **Process:**
+
 1. **Quality Gates** - Same as PR validation
 2. **Semantic Release** - Automated versioning
 3. **Container Build** - Multi-architecture Docker images
@@ -49,6 +51,7 @@ Our pipeline catches issues as early as possible in the development cycle:
 **Triggers:** Daily schedule + manual dispatch
 
 **Scans:**
+
 - Dependency vulnerabilities
 - Container security (Trivy)
 - Code analysis (CodeQL)
@@ -70,12 +73,12 @@ We use [Conventional Commits](https://www.conventionalcommits.org/):
 
 ### Release Types
 
-| Commit Type | Release Type | Example |
-|-------------|--------------|---------|
-| `feat:` | Minor | `feat: add CV template selection` |
-| `fix:` | Patch | `fix: resolve PDF export issue` |
-| `perf:` | Patch | `perf: optimize image loading` |
-| `BREAKING CHANGE:` | Major | `feat!: redesign user interface` |
+| Commit Type        | Release Type | Example                           |
+| ------------------ | ------------ | --------------------------------- |
+| `feat:`            | Minor        | `feat: add CV template selection` |
+| `fix:`             | Patch        | `fix: resolve PDF export issue`   |
+| `perf:`            | Patch        | `perf: optimize image loading`    |
+| `BREAKING CHANGE:` | Major        | `feat!: redesign user interface`  |
 
 ### Branch Strategy
 
