@@ -21,7 +21,9 @@ function shouldInstallPlaywright() {
 
   // Skip if CI environment (will be installed explicitly in workflows)
   if (process.env.CI) {
-    console.log('Skipping Playwright installation in CI (will be installed explicitly)');
+    console.log(
+      'Skipping Playwright installation in CI (will be installed explicitly)'
+    );
     return false;
   }
 

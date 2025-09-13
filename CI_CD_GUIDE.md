@@ -154,6 +154,8 @@ pnpm lint               # Run ESLint
 pnpm lint:fix           # Fix ESLint issues
 pnpm format             # Format code with Prettier
 pnpm format:check       # Check code formatting
+pnpm format:staged      # Format only staged files
+pnpm fix                # Fix everything (format + lint)
 
 # Testing
 pnpm test               # Run unit tests
@@ -161,6 +163,27 @@ pnpm test:watch         # Run tests in watch mode
 pnpm test:e2e           # Run E2E tests
 pnpm test:e2e:ui        # Run E2E tests with UI
 pnpm test:e2e:headed    # Run E2E tests in headed mode
+```
+
+### Automated Code Quality
+
+The project includes automated formatting and linting:
+
+- **Pre-commit hooks** automatically format and lint staged files
+- **VS Code integration** formats files on save
+- **CI/CD pipeline** validates code quality on every PR
+
+#### Quick Fixes
+
+```bash
+# If CI formatting check fails
+pnpm fix && git add . && git commit --amend --no-edit
+
+# Format specific files
+pnpm exec prettier --write "src/**/*.ts"
+
+# Check what files need formatting
+pnpm format:check
 ```
 
 ## Docker Usage

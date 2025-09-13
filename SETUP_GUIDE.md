@@ -74,12 +74,28 @@ The application will be available at [http://localhost:3000](http://localhost:30
 
 ## Available Scripts
 
+### Development
+
 - `pnpm dev` - Starts the development server
 - `pnpm build` - Builds the application for production
 - `pnpm start` - Starts the production server
+
+### Code Quality & Formatting
+
 - `pnpm lint` - Runs ESLint for code quality checks
+- `pnpm lint:fix` - Automatically fixes ESLint issues
+- `pnpm format` - Formats all files with Prettier
+- `pnpm format:check` - Checks if files are properly formatted
+- `pnpm format:staged` - Formats only staged files
+- `pnpm fix` - Runs both formatting and linting fixes
+
+### Testing
+
 - `pnpm test` - Runs the test suite
 - `pnpm test:watch` - Runs tests in watch mode
+- `pnpm test:e2e` - Runs end-to-end tests
+- `pnpm test:e2e:ui` - Runs E2E tests with UI
+- `pnpm test:e2e:headed` - Runs E2E tests in headed mode
 
 ## Project Structure
 
@@ -110,13 +126,45 @@ src/
    - Organize code into segments (ui, model, api, lib)
    - Export public APIs through index files
 
-### Code Quality
+### Code Quality & Automated Formatting
 
-Before committing, ensure code quality:
+The project includes automated code formatting and quality checks:
+
+#### Automatic (Recommended)
+
+- **Pre-commit hooks** automatically format and lint your code
+- **VS Code integration** formats files on save (install "Prettier - Code formatter" extension)
+
+#### Manual Commands
 
 ```bash
-pnpm lint
-pnpm test
+# Check and fix everything
+pnpm fix
+
+# Individual commands
+pnpm lint           # Check for linting issues
+pnpm format:check   # Check formatting
+pnpm test          # Run tests
+```
+
+#### Before Committing
+
+The pre-commit hooks will automatically run, but you can manually verify:
+
+```bash
+pnpm fix    # Fix formatting and linting
+pnpm test   # Run tests
+```
+
+#### Troubleshooting Formatting
+
+If you encounter formatting issues in CI:
+
+```bash
+# Quick fix for formatting failures
+pnpm fix
+git add .
+git commit --amend --no-edit
 ```
 
 ## Troubleshooting
