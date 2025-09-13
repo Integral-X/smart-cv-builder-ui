@@ -1,8 +1,8 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  // Enable standalone output for Docker
-  output: 'standalone',
+  // Enable standalone output for Docker (disabled on Windows due to symlink issues)
+  // output: 'standalone',
 
   // Optimize for production
   poweredByHeader: false,

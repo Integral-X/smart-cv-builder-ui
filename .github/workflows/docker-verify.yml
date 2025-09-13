@@ -43,17 +43,16 @@ jobs:
       - name: Build Next.js application
         run: pnpm build
 
-      - name: Verify standalone output structure
+      - name: Verify build output structure
         run: |
-          echo "Checking standalone build structure..."
+          echo "Checking build structure..."
           ls -la .next/
-          ls -la .next/standalone/
 
-          # Verify server.js exists
-          if [ -f ".next/standalone/server.js" ]; then
-            echo "✅ server.js found in standalone output"
+          # Verify BUILD_ID exists
+          if [ -f ".next/BUILD_ID" ]; then
+            echo "✅ BUILD_ID found: $(cat .next/BUILD_ID)"
           else
-            echo "❌ server.js not found in standalone output"
+            echo "❌ BUILD_ID not found"
             exit 1
           fi
 
