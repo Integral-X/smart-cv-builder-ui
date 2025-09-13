@@ -138,16 +138,67 @@ jobs:
       - name: Start application in background
         run: |
           echo "Starting Next.js application..."
-          pnpm start &
-          echo $! > .next_pid
-        env:
-          PORT: 3000
+          echo "Node version: $(node --version)"
+          echo "Checking if .next directory exists..."
+          ls -la .next/ || echo "No .next directory found"
+
+          # Start the application with explicit port
+          PORT=3000 pnpm start &
+          APP_PID=$!
+          echo $APP_PID > .next_pid
+          echo "Started application with PID: $APP_PID"
+
+          # Give it a moment to start
+          sleep 5
+
+          # Check if process is still running
+          if kill -0 $APP_PID 2>/dev/null; then
+            echo "✅ Application process is running"
+          else
+            echo "❌ Application process died immediately"
+            exit 1
+          fi
 
       - name: Wait for application to be ready
         run: |
           echo "Waiting for application to start on http://localhost:3000..."
-          pnpm exec wait-on http://localhost:3000 --timeout 60000 --interval 2000 --verbose
-          echo "Application is ready!"
+
+          # Try a simple curl first to see if anything is listening
+          for i in {1..10}; do
+            if curl -s http://localhost:3000 >/dev/null 2>&1; then
+              echo "✅ Port 3000 is responding"
+              break
+            fi
+            echo "Attempt $i: Port 3000 not responding yet..."
+            sleep 2
+          done
+
+          # Now use wait-on with more verbose output
+          pnpm exec wait-on http://localhost:3000 --timeout 90000 --interval 3000 --verbose || {
+            echo "❌ Application failed to start. Checking logs..."
+            
+            # Check if process is still running
+            if [ -f .next_pid ]; then
+              APP_PID=$(cat .next_pid)
+              if kill -0 $APP_PID 2>/dev/null; then
+                echo "Process is still running, but not responding on port 3000"
+              else
+                echo "Process has died"
+              fi
+            fi
+            
+            # Check what's listening on port 3000
+            netstat -tlnp | grep :3000 || echo "Nothing listening on port 3000"
+            
+            # Check system resources
+            echo "System resources:"
+            free -h
+            df -h
+            
+            exit 1
+          }
+
+          echo "✅ Application is ready!"
 
       - name: Verify application is responding
         run: |
@@ -156,7 +207,14 @@ jobs:
           curl -I http://localhost:3000 || echo "Root endpoint not available"
 
       - name: Run E2E tests
-        run: pnpm dlx playwright test
+        run: |
+          echo "Running Playwright E2E tests..."
+          echo "Current directory: $(pwd)"
+          echo "Available endpoints:"
+          curl -s http://localhost:3000/api/health || echo "Health endpoint not available"
+
+          # Run the tests
+          pnpm dlx playwright test --reporter=github
 
       - name: Stop application
         if: always()

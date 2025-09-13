@@ -8,6 +8,9 @@ on:
       - '.dockerignore'
   workflow_dispatch:
 
+# Note: This workflow may fail if Docker registry is not set up yet
+# This is expected and won't block the main CI/CD pipeline
+
 jobs:
   verify-docker-build:
     name: Verify Docker Build
