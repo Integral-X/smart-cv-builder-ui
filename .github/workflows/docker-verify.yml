@@ -13,21 +13,21 @@ jobs:
     name: Verify Docker Build
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 8
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -40,7 +40,7 @@ jobs:
           echo "Checking standalone build structure..."
           ls -la .next/
           ls -la .next/standalone/
-          
+
           # Verify server.js exists
           if [ -f ".next/standalone/server.js" ]; then
             echo "✅ server.js found in standalone output"
@@ -48,7 +48,7 @@ jobs:
             echo "❌ server.js not found in standalone output"
             exit 1
           fi
-          
+
           # Verify static files
           if [ -d ".next/static" ]; then
             echo "✅ Static files directory found"
@@ -73,10 +73,10 @@ jobs:
         run: |
           # Start container in background
           docker run -d --name test-container -p 3000:3000 smart-cv-builder:test
-          
+
           # Wait for container to be ready
           sleep 10
-          
+
           # Test health endpoint
           for i in {1..30}; do
             if curl -f http://localhost:3000/api/health; then
@@ -86,7 +86,7 @@ jobs:
             echo "Waiting for container to be ready... ($i/30)"
             sleep 2
           done
-          
+
           # Cleanup
           docker stop test-container
           docker rm test-container
