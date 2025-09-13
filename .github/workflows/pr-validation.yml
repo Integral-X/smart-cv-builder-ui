@@ -127,8 +127,8 @@ jobs:
             pnpm install
           fi
 
-      - name: Install Playwright
-        run: pnpm dlx playwright install --with-deps
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4

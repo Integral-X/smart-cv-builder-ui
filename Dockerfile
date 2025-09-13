@@ -9,11 +9,15 @@ WORKDIR /app
 # Install pnpm
 RUN corepack enable pnpm
 
-# Copy package files
+# Copy package files and scripts
 COPY package.json pnpm-lock.yaml* ./
+COPY scripts/ ./scripts/
 
-# Install dependencies
-RUN pnpm install --frozen-lockfile --prod=false
+# Set environment to skip Playwright installation
+ENV DOCKER_BUILD=true
+
+# Install all dependencies for build stage
+RUN pnpm install --frozen-lockfile
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -22,8 +26,13 @@ WORKDIR /app
 # Install pnpm
 RUN corepack enable pnpm
 
+# Copy dependencies and source code
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+# Set build environment
+ENV DOCKER_BUILD=true
+ENV NEXT_TELEMETRY_DISABLED=1
 
 # Build the application
 RUN pnpm build
