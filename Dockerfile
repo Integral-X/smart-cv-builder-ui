@@ -52,7 +52,7 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder /app/package.json ./package.json
-
+COPY --from=builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
 # Install production dependencies
 RUN corepack enable pnpm && pnpm install --prod --frozen-lockfile
 
