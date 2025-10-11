@@ -370,5 +370,3 @@ Run tests with coverage report:
 ```bash
 pnpm test:coverage
 ```
-
-
