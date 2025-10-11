@@ -281,16 +281,72 @@ pnpm lint:fix
 
 ## Code Formatting
 
-This project uses Prettier for code formatting. To check formatting:
+This project uses Prettier for code formatting with automated pre-commit hooks to ensure consistent code style.
+
+### Automatic Formatting (Recommended)
+
+The project is configured with **Husky** and **lint-staged** for automatic formatting:
+
+- **Pre-commit hooks** automatically format and lint staged files
+- **VS Code integration** formats files on save
+- **No manual intervention** required for most workflows
+
+### Manual Commands
+
+When you need to format manually:
 
 ```bash
+# Format all files in the project
+pnpm format
+
+# Check formatting without fixing
 pnpm format:check
+
+# Format only staged files (used by pre-commit hook)
+pnpm format:staged
+
+# Fix everything (format + lint)
+pnpm fix
 ```
 
-To automatically format all files:
+### Setup for New Contributors
+
+After cloning the repository:
 
 ```bash
-pnpm format
+# Install dependencies (sets up hooks automatically)
+pnpm install
+
+# Verify hooks are working
+git add .
+git commit -m "test commit"  # Should auto-format files
+```
+
+### VS Code Integration
+
+The project includes VS Code settings for automatic formatting:
+
+- **Format on save** enabled
+- **Auto-fix ESLint** issues on save
+- **Prettier as default** formatter
+
+Install the "Prettier - Code formatter" extension for the best experience.
+
+### Troubleshooting
+
+If formatting isn't working:
+
+```bash
+# Emergency format fix (if CI fails)
+pnpm fix
+git add .
+git commit --amend --no-edit
+
+# Skip hooks (use sparingly)
+git commit --no-verify -m "emergency fix"
+
+# Reinstall hooks
+pnpm exec husky init
 ```
 
 ## Testing
@@ -314,5 +370,3 @@ Run tests with coverage report:
 ```bash
 pnpm test:coverage
 ```
-
-
