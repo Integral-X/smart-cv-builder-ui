@@ -1,4 +1,4 @@
-# Smart CV Builder - Setup Guide
+# CrackCV - Setup Guide
 
 ## Prerequisites
 
@@ -21,8 +21,8 @@ Before you begin, ensure you have the following installed on your system:
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
-cd smart-cv-builder
+git clone https://github.com/Integral-X/crackcv-ui.git
+cd crack-cv-next
 ```
 
 ### 2. Install Dependencies

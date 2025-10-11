@@ -1,20 +1,6 @@
-# Smart CV Builder
+# CrackCV
 
-A comprehensive CV building and job application tracking platform built with Next.js 15, TypeScript, and Feature-Sliced Design architecture.
-
-## Project Overview
-
-Smart CV Builder is an all-in-one platform that helps users create professional resumes, track job applications, prepare for interviews, and identify skill gaps. The platform provides AI-powered insights for resume optimization, personalized learning roadmaps, and a centralized dashboard for career management.
-
-### Key Features
-
-- **Smart CV Builder**: AI-powered resume creation with multiple templates and real-time ATS scoring
-- **Job Application Tracker**: Kanban-style tracking of job applications with status management
-- **Skill Gap Analysis**: AI-powered comparison of user skills against market requirements
-- **Learning Roadmap**: Personalized course recommendations and skill development paths
-- **Job Search Integration**: Web-scraped job listings relevant to user profiles
-- **Interview Preparation**: Question bank with adaptive difficulty and mock interview simulations
-- **Analytics & Insights**: Performance metrics and career progression tracking
+CrackCV is an all-in-one platform that helps users create professional resumes, track job applications, prepare for interviews, and identify skill gaps. The platform provides AI-powered insights for resume optimization, personalized learning roadmaps, and a centralized dashboard for career management.
 
 ## Architecture
 
@@ -261,8 +247,8 @@ src/
 1. Clone the repository:
 
    ```bash
-   git clone <repository-url>
-   cd smart-cv-builder
+   git clone https://github.com/Integral-X/crackcv-ui.git
+   cd crackcv-ui
    ```
 
 2. Install dependencies:
@@ -278,8 +264,6 @@ src/
    ```
 
 4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `src/app/page.tsx`. The page auto-updates as you edit the file.
 
 ## Code Quality
 
@@ -331,30 +315,4 @@ Run tests with coverage report:
 pnpm test:coverage
 ```
 
-For more information about the testing setup, see the testing implementation guide.
 
-## Learn More
-
-To learn more about the technologies used in this project:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API
-- [TypeScript Documentation](https://www.typescriptlang.org/docs/) - learn about TypeScript
-- [Feature-Sliced Design](https://feature-sliced.design/) - learn about the architecture pattern
-- [shadcn/ui Documentation](https://ui.shadcn.com/) - learn about the UI components
-
-## Code Quality
-
-This project uses ESLint for code quality checks with the following plugins:
-
-- `eslint-plugin-react` - React specific linting rules
-- `eslint-plugin-react-hooks` - Rules for React hooks
-- `eslint-plugin-jsx-a11y` - Accessibility linting rules
-- `typescript-eslint` - TypeScript ESLint integration
-
-For more information about the ESLint configuration, see [ESLINT_GUIDE.md](./ESLINT_GUIDE.md).
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
