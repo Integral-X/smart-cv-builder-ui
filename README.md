@@ -262,7 +262,7 @@ src/
 
    ```bash
    git clone <repository-url>
-   cd crack-cv-next
+   cd crackcv-ui
    ```
 
 2. Install dependencies:
